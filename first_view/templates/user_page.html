@@ -1,0 +1,16 @@
+<a>Logowanie zakończone sukcesem</a>
+
+<form method="POST" action="{% url 'logout' %}">
+    {% csrf_token %}
+    <button type="submit">Wyloguj się</button>
+</form>
+<br>
+<br>
+
+{% if is_director %}
+    <p>Zalogowano jako dyrektor</p>
+{% elif is_teacher %}
+    <p>Zalogowano jako nauczyciel</p>
+{% elif is_student %}
+    <p>Zalogowano jako uczeń</p>
+{% endif %}

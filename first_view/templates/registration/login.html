@@ -1,0 +1,16 @@
+<h2>Logowanie</h2>
+<form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <input type="hidden" name="next" value="{{ next }}">
+
+    <button type="submit">Zaloguj</button>
+    <br><br>
+    <a href="{% url 'hello' %}"><small>Main page</small></a>
+</form>
+
+<form method="POST" action="{% url 'logout' %}">
+    {% csrf_token %}
+    <button type="submit">Wyloguj się</button>
+</form>
