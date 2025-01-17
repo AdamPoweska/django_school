@@ -5,12 +5,37 @@
     <button type="submit">Wyloguj się</button>
 </form>
 <br>
-<br>
 
 {% if is_director %}
-    <p>Zalogowano jako dyrektor</p>
+    <p>Zalogowano jako DYREKTOR</p>
+    <a href="{% url 'hello' %}">LEKCJE</a>
+    <br>
+    <br>
+    <a href="{% url 'hello' %}">NAUCZYCIELE</a>
+    <br>
+    <br>
+    <a href="{% url 'hello' %}">KLASY</a>
+    <br>
+    <br>
+    <a href="{% url 'hello' %}">UCZNIOWIE</a>
+    <br>
 {% elif is_teacher %}
-    <p>Zalogowano jako nauczyciel</p>
+    <p>Zalogowano jako NAUCZYCIEL</p>
+    <a href="{% url 'hello' %}">PROWADZONE LEKCJE</a>
+    <br>
+    <br>
+    <a href="{% url 'hello' %}">UCZNIOWIE</a>
+    <br>
+    <br>
+    <a href="{% url 'hello' %}">OCENY</a>
+    <br>
+    <br>
 {% elif is_student %}
-    <p>Zalogowano jako uczeń</p>
+    <p>Zalogowano jako UCZEŃ</p>
+    <a href="{% url 'hello' %}">LEKCJE</a>
+    <br>
+    <br>
+    <a href="{% url 'hello' %}">OCENY</a>
+    <br>
+    <br>
 {% endif %}

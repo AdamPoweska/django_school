@@ -30,3 +30,13 @@ class UserPage(TemplateView):
         context['is_student'] = user.groups.filter(name="Student").exists()
 
         return context
+
+class BaseListView(ListView):
+    model = None # model jest przekazany w klasie pochodnej
+    template_name = None
+
+class BaseCreateView(CreateView):
+    model = None
+    fields = '__all__'
+    template_name = None
+    success_url = reverse_lazy
