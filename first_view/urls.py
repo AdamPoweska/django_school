@@ -10,4 +10,5 @@ urlpatterns = [
     # path('login/', LoginView.as_view(), name='login'),
     path('user_page/', views.UserPage.as_view(), name='user_page'),
     path('logout/', LogoutView.as_view(), name='logout'),
+    path('<str:action>/<str:model_name>/<int:pk>', views.DynamicModelView, name='dynamic_model_view') # używam już 'as_view()' w widokach
 ]
