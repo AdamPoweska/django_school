@@ -60,7 +60,7 @@ class DynamicModelView(View):
         'grade': Grade,
         'school': School,
     }
-    # HTML templates
+    # HTML templatki - nie muszę już tworzyć osobnych urli, nie jest to wymagane
     templates = {
         'create': 'model_create.html', # Create
         'list': 'model_list.html', # Read
@@ -69,7 +69,7 @@ class DynamicModelView(View):
     }
     # Actions - Class Based Views
     actions = {
-        'create': ListView,
+        'create': CreateView,
         'list': ListView,
         'update': UpdateView,
         'delete': DeleteView,
