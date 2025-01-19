@@ -1,1 +1,39 @@
 <a>model list</a>
+
+<style>
+    table, th, td{
+        border: 1px solid black;
+        border-collapse: collapse;
+    }
+</style>
+    
+<table style>
+    <thead>
+        <tr>
+            {% for header in headers %}
+                <th>{{ header }}</th>
+            {% endfor %}
+        </tr>
+    </thead>
+    <tbody>
+        {% for obj in object_fields %}
+            <tr>
+                {% for field in obj %}
+                    <td>{{ field }}</td>
+                {% endfor %}
+                <td>
+                    <form method="POST" action="{% url 'hello' %}">
+                        {% csrf_token %}
+                        <button type="submit">Delete</button>
+                    </form>
+                </td>
+                <td>
+                    <form method="GET" action="{% url 'update' %}">
+                        {% csrf_token %}
+                        <button type="submit">Update</button>
+                    </form>
+                </td>		
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>

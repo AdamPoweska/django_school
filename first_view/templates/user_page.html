@@ -8,7 +8,7 @@
 
 {% if is_director %}
     <p>Zalogowano jako DYREKTOR</p>
-    <a href="{% url 'hello' %}">LEKCJE</a>
+    <a href="{% url 'dynamic_model_view' action='list' model_name='lesson' %}">LEKCJE</a>
     <br>
     <br>
     <a href="{% url 'hello' %}">NAUCZYCIELE</a>

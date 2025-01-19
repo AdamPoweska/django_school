@@ -97,6 +97,12 @@ class DynamicModelView(View):
             def get_context_data(inner_self, **inner_kwargs):
                 context = super().get_context_data(**inner_kwargs)
                 context['headers'] = [field.verbose_name for field in view_model._meta.fields]
+            
+                object_fields = []
+                for obj in context['object_fields']:
+                    object_fields.append([getattr(obj, field.name) for field in view_model._meta.fields])
+            
+                context['object_fields'] = object_fields
                 return context
         
         view = DynamicHeaders.as_view()
