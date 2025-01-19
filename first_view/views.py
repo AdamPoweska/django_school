@@ -1,7 +1,7 @@
 # Create your views here.
 
 from django.http import HttpResponse    
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
 from django.views.generic import CreateView, DeleteView, TemplateView, ListView, UpdateView
 from django.contrib.auth.views import LoginView
@@ -89,13 +89,27 @@ class DynamicModelView(View):
         if not view_class or not view_model:
             return HttpResponse("Błędna akcja, lub niewłaściwy model", status=400)
         
-        view = view_class.as_view(
-            model=view_model,
-            template_name=view_template,
-        )
+        class DynamicHeaders(view_class):
+            model = view_model
+            template_name = view_template
+            success_url = self.success_url
+
+            def get_context_data(inner_self, **inner_kwargs):
+                context = super().get_context_data(**inner_kwargs)
+                context['headers'] = [field.verbose_name for field in view_model._meta.fields]
+                return context
+        
+        view = DynamicHeaders.as_view()
+        
+        # view = view_class.as_view(
+        #     model=view_model,
+        #     template_name=view_template,
+        #     success_url=self.success_url,
+        # )
 
         if action in ['update', 'delete'] and pk: # jeśli akcja to 'update" lub 'delete' i zawiera przekazane pk
-            obj = view_model.objects.filter(pk=pk).first() # zapytanie do bazy danych 'objects.filter' używając pk, które zwraca 'queryset'. Następnie 'first()' zwraca pierwszy pasujący wynik z tego queryset'u (zgodny z kryteriami). Jeśli queryste jest pusty to zwróci 'None' (w przeciwieństwie do '.get(pk=pk)' - które w razie błędu zwróci "DoesNotExist" error. First jest łatwiejsze do obsługi).
+            # obj = view_model.objects.filter(pk=pk).first() # zapytanie do bazy danych 'objects.filter' używając pk, które zwraca 'queryset'. Następnie 'first()' zwraca pierwszy pasujący wynik z tego queryset'u (zgodny z kryteriami). Jeśli queryste jest pusty to zwróci 'None' (w przeciwieństwie do '.get(pk=pk)' - które w razie błędu zwróci "DoesNotExist" error. First jest łatwiejsze do obsługi).
+            obj = get_object_or_404(view_model, pk=pk)
             if not obj:
                 return HttpResponse("Obiekt nie odnaleziony", status=404)
             return view(request, pk=obj.pk)
