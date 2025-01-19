@@ -28,7 +28,7 @@
                     </form>
                 </td>
                 <td>
-                    <form method="GET" action="{% url 'update' %}">
+                    <form method="GET" action="{% url 'hello' %}">
                         {% csrf_token %}
                         <button type="submit">Update</button>
                     </form>
@@ -37,3 +37,5 @@
         {% endfor %}
     </tbody>
 </table>
+<br>
+<a href="{% url 'dynamic_model_view' action='create' model_name='lesson' %}">Create new record</a>

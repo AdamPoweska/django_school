@@ -94,15 +94,19 @@ class DynamicModelView(View):
             template_name = view_template
             success_url = self.success_url
 
+            if action == "create":
+                fields = '__all__'
+
             def get_context_data(inner_self, **inner_kwargs):
                 context = super().get_context_data(**inner_kwargs)
                 context['headers'] = [field.verbose_name for field in view_model._meta.fields]
-            
-                object_fields = []
-                for obj in context['object_fields']:
-                    object_fields.append([getattr(obj, field.name) for field in view_model._meta.fields])
-            
-                context['object_fields'] = object_fields
+
+                object_list = context.get('object_list', [])
+                if object_list:
+                    context['object_fields'] = [[getattr(obj, field.name) for field in view_model._meta.fields] for obj in object_list]
+                else:
+                    context['object_fields'] = []
+
                 return context
         
         view = DynamicHeaders.as_view()
