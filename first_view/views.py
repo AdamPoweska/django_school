@@ -75,7 +75,14 @@ class DynamicModelView(View):
         'delete': DeleteView,
     }
 
-    success_url = reverse_lazy('user_page')
+    action_urls = {
+        'create': 'dynamic_model_view',
+        'list': 'dynamic_model_view',
+        'update': 'dynamic_model_view',
+        'delete': 'dynamic_model_view',
+    }
+
+    # success_url = reverse_lazy('user_page')
 
     def dispatch(self, request, *args, **kwargs):
         action = kwargs.get('action')
@@ -89,10 +96,22 @@ class DynamicModelView(View):
         if not view_class or not view_model:
             return HttpResponse("Błędna akcja, lub niewłaściwy model", status=400)
         
+        success_url = reverse_lazy('dynamic_model_view', kwargs={'action': 'list', 'model_name': model_name})
+        
+        # success_url = reverse_lazy(self.action_urls.get(action), kwargs={'model_name': model_name}) # dynamiczny sukces url
+
+        # if action in ['create', 'list']:
+        #     success_url = reverse_lazy('dynamic_model_view', kwargs={'action': action, 'model_name': model_name})
+        # else:
+        #     success_url = reverse_lazy('dynamic_model_view', kwargs={'action': action, 'model_name': model_name, 'pk': pk})
+
         class DynamicHeaders(view_class):
             model = view_model
             template_name = view_template
-            success_url = self.success_url
+            # success_url = success_url
+
+            def get_success_url(self):
+                return success_url
 
             if action in ["create", "update"]:
                 fields = '__all__'
