@@ -21,21 +21,24 @@
     <br>
 {% elif is_teacher %}
     <p>Zalogowano jako NAUCZYCIEL</p>
-    <a href="{% url 'hello' %}">PROWADZONE LEKCJE</a>
+    <a href="{% url 'dynamic_model_view' action='list' model_name='lesson' %}">PROWADZONE LEKCJE</a>
     <br>
     <br>
-    <a href="{% url 'hello' %}">UCZNIOWIE</a>
+    <a href="{% url 'dynamic_model_view' action='list' model_name='student' %}">UCZNIOWIE</a>
     <br>
     <br>
-    <a href="{% url 'hello' %}">OCENY</a>
+    <a href="{% url 'dynamic_model_view' action='list' model_name='grade' %}">OCENY</a>
+    <br>
+    <br>
+    <a href="{% url 'dynamic_model_view' action='list' model_name='teacher_lesson_student' %}">OCENY-wystawianie?</a>
     <br>
     <br>
 {% elif is_student %}
     <p>Zalogowano jako UCZEŃ</p>
-    <a href="{% url 'hello' %}">LEKCJE</a>
+    <a href="{% url 'dynamic_model_view' action='list' model_name='lesson' %}">LEKCJE</a>
     <br>
     <br>
-    <a href="{% url 'hello' %}">OCENY</a>
+    <a href="{% url 'dynamic_model_view' action='list' model_name='grade' %}">OCENY</a>
     <br>
     <br>
 {% endif %}
