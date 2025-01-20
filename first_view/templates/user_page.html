@@ -11,13 +11,13 @@
     <a href="{% url 'dynamic_model_view' action='list' model_name='lesson' %}">LEKCJE</a>
     <br>
     <br>
-    <a href="{% url 'hello' %}">NAUCZYCIELE</a>
+    <a href="{% url 'dynamic_model_view' action='list' model_name='teacher' %}">NAUCZYCIELE</a>
     <br>
     <br>
-    <a href="{% url 'hello' %}">KLASY</a>
+    <a href="{% url 'dynamic_model_view' action='list' model_name='student' %}">UCZNIOWIE</a>
     <br>
     <br>
-    <a href="{% url 'hello' %}">UCZNIOWIE</a>
+    <a href="{% url 'dynamic_model_view' action='list' model_name='school_adress' %}">ADRES SZKOŁY</a>
     <br>
 {% elif is_teacher %}
     <p>Zalogowano jako NAUCZYCIEL</p>

@@ -99,6 +99,7 @@ class DynamicModelView(View):
 
             def get_context_data(inner_self, **inner_kwargs):
                 context = super().get_context_data(**inner_kwargs)
+                context['model_name'] = self.kwargs.get('model_name') # dodana linia, mająca przekazywać nazwę modelu do html'i
                 context['headers'] = [field.verbose_name for field in view_model._meta.fields]
 
                 object_list = context.get('object_list', [])
