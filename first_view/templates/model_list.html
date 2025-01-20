@@ -18,19 +18,19 @@
     <tbody>
         {% for obj in object_fields %}
             <tr>
-                {% for field in obj %}
+                {% for field in obj.fields %}
                     <td>{{ field }}</td>
                 {% endfor %}
                 <td>
-                    <form method="POST" action="{% url 'hello' %}">
+                    <form method="GET" action="{% url 'dynamic_model_view' action='update' pk=obj.pk model_name='lesson' %}">
                         {% csrf_token %}
-                        <button type="submit">Delete</button>
+                        <button type="submit">Update</button>
                     </form>
                 </td>
                 <td>
-                    <form method="GET" action="{% url 'hello' %}">
+                    <form method="POST" action="{% url 'dynamic_model_view' action='delete' pk=obj.pk model_name='lesson' %}">
                         {% csrf_token %}
-                        <button type="submit">Update</button>
+                        <button type="submit">Delete</button>
                     </form>
                 </td>		
             </tr>
