@@ -28,6 +28,9 @@ class Director(models.Model):
 class Lesson(models.Model):
     lesson_name = models.CharField(max_length=100)
 
+    def __str__(self):
+        return self.lesson_name
+
     # class Meta: # aby tworzyć własne uprawnienia do panelu administracyjnego
     #     permissions = [
     #         ("can_create_lesson", "Can create lesson"),

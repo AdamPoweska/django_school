@@ -119,17 +119,19 @@ class DynamicModelView(View):
             def get_context_data(inner_self, **inner_kwargs):
                 context = super().get_context_data(**inner_kwargs)
                 context['model_name'] = self.kwargs.get('model_name') # dodana linia, mająca przekazywać nazwę modelu do html'i
-                context['headers'] = [field.verbose_name for field in view_model._meta.fields]
+                context['headers'] = [field.verbose_name for field in view_model._meta.fields] + [field.verbose_name for field in view_model._meta.many_to_many]
 
                 object_list = context.get('object_list', [])
-                context['object_fields'] = [
-                    {
-                        'fields': [getattr(obj, field.name) for field in view_model._meta.fields],
-                        'pk': obj.pk
-                    }
-                    for obj in object_list
-                ]
+                context['object_fields'] = []
 
+                for obj in object_list:
+                    row = {
+                        'fields': [getattr(obj, field.name) for field in view_model._meta.fields],
+                        'many_to_many': [', '.join(str(related_obj) for related_obj in getattr(obj, field.name).all()) for field in view_model._meta.many_to_many],
+                        'pk': obj.pk,
+                    }
+                    context['object_fields'].append(row)
+                   
                 return context
                 
                 # if object_list:

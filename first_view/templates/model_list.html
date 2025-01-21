@@ -18,9 +18,15 @@
     <tbody>
         {% for obj in object_fields %}
             <tr>
+                
                 {% for field in obj.fields %}
                     <td>{{ field }}</td>
                 {% endfor %}
+
+                {% for m2m_field in obj.many_to_many %}
+                    <td>{{ m2m_field }}</td>
+                {% endfor %}
+                
                 <td>
                     <form method="GET" action="{% url 'dynamic_model_view' action='update' pk=obj.pk model_name=model_name %}">
                         {% csrf_token %}
