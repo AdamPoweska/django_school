@@ -2,17 +2,17 @@
 from django.db import models
 
 GRADES_CHOICES = (
-    ('1', float(1)),
-    ('1+', float(1.5)),
-    ('2', float(2)),
-    ('2+', float(2.5)),
-    ('3', float(3)),
-    ('3+', float(3.5)),
-    ('4', float(4)),
-    ('4+', float(4.5)),
-    ('5', float(5)),
-    ('5+', float(5.5)),
-    ('6', float(6)),
+    (float(1), float(1)),
+    (float(1.5), float(1.5)),
+    (float(2), float(2)),
+    (float(2.5), float(2.5)),
+    (float(3), float(3)),
+    (float(3.5), float(3.5)),
+    (float(4), float(4)),
+    (float(4.5), float(4.5)),
+    (float(5), float(5)),
+    (float(5.5), float(5.5)),
+    (float(6), float(6)),
 )
 
 class SchoolAdress(models.Model):
@@ -21,9 +21,14 @@ class SchoolAdress(models.Model):
     city = models.CharField(max_length=100)
     postal_code = models.CharField(max_length=6)
 
+
 class Director(models.Model):
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return f"{self.first_name} {self.last_name}"
+
 
 class Lesson(models.Model):
     lesson_name = models.CharField(max_length=100)
@@ -45,6 +50,9 @@ class Teacher(models.Model):
     last_name = models.CharField(max_length=100)
     courses = models.ManyToManyField(Lesson)
 
+    def __str__(self):
+        return f"{self.first_name} {self.last_name}"
+
 # class TeacherLesson(models.Model):
 #     teacher = models.ForeignKey(Teacher, on_delete=models.SET_NULL, null=True)
 #     lesson = models.ForeignKey(Lesson, on_delete=models.SET_NULL, null=True)
@@ -58,6 +66,11 @@ class Teacher(models.Model):
 class Student(models.Model):
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
+    courses = models.ManyToManyField(Lesson)
+    
+    def __str__(self):
+        return f"{self.first_name} {self.last_name}"
+
 
 class TeacherLessonStudent(models.Model):
     teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE)
@@ -68,7 +81,8 @@ class TeacherLessonStudent(models.Model):
         unique_together = ("teacher", "lesson", "student")  # żeby istniała unikalność połączeń teacher i lesson i student
 
     def __str__(self):
-        return f"{self.teacher.first_name} {self.teacher.last_name} - {self.lesson.lesson_name} - {self.student.first_name} {self.student.last_name}"
+        return f"{self.lesson.lesson_name} | {self.teacher.first_name} {self.teacher.last_name} | {self.student.first_name} {self.student.last_name}"
+
 
 class Grade(models.Model):
     teacher_lesson_student = models.ForeignKey(TeacherLessonStudent, on_delete=models.CASCADE)
