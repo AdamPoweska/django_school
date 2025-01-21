@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+    <a href="{% url 'hello' %}">Strona główna</a>
+    <br></br>
+    {% if user.is_authenticated %}
+        <p> Zalogowano: {{ user.username }}</p>
+        <form method="post" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button type="submit">Wyloguj</button>
+        </form>
+    {% else %}
+        <form method="get" action="{% url 'login' %}">
+            {% csrf_token %}
+            <button type="submit">Zaloguj</button>
+        </form>
+    {% endif %}
+    <br>
+    {% block content %}
+    {% endblock %}
+</html>

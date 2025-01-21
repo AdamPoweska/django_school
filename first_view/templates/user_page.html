@@ -1,9 +1,6 @@
-<a>Logowanie zakończone sukcesem</a>
+{% extends 'base.html' %}
+{% block content %}
 
-<form method="POST" action="{% url 'logout' %}">
-    {% csrf_token %}
-    <button type="submit">Wyloguj się</button>
-</form>
 <br>
 
 {% if is_director %}
@@ -42,3 +39,5 @@
     <br>
     <br>
 {% endif %}
+
+{% endblock %}
