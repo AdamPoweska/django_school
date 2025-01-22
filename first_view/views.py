@@ -109,6 +109,11 @@ class DynamicModelView(View):
 
             def get_context_data(inner_self, **inner_kwargs):
                 context = super().get_context_data(**inner_kwargs)
+                user = self.request.user
+
+                context['is_director'] = user.groups.filter(name="Dyrektor").exists()
+                context['is_teacher'] = user.groups.filter(name="Teacher").exists()
+                context['is_student'] = user.groups.filter(name="Student").exists()
                 context['model_name'] = self.kwargs.get('model_name') # dodana linia, mająca przekazywać nazwę modelu do html'i
                 context['headers'] = [field.verbose_name for field in view_model._meta.fields] + [field.verbose_name for field in view_model._meta.many_to_many]
 
