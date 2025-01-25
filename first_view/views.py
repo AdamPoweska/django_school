@@ -99,8 +99,8 @@ class DynamicModelView(View):
             if action in ["create", "update"]:
                 fields = '__all__'
 
-            def get_context_data(inner_self, **kwargs): # nadpisanie get_context_data
-                context = super().get_context_data(**kwargs)
+            def get_context_data(inner_self, **inner_kwargs):
+                context = super().get_context_data(**inner_kwargs)
                 context['model_name'] = self.kwargs.get('model_name') # dodana linia, mająca przekazywać nazwę modelu do html'i
                 context['headers'] = [field.verbose_name for field in view_model._meta.fields] + [field.verbose_name for field in view_model._meta.many_to_many]
 

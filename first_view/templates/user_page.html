@@ -2,6 +2,8 @@
 {% block content %}
 <br>
 
+<p>User is authenticated: {{ user.is_authenticated }}</p>
+
 {% if is_director %}
     <p>Zalogowano jako DYREKTOR</p>
     <a href="{% url 'dynamic_model_view' action='list' model_name='lesson' %}">LEKCJE</a>

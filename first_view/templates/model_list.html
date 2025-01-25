@@ -30,6 +30,7 @@
                     <td>{{ m2m_field }}</td>
                 {% endfor %}
                 
+                {% if is_director or is_teacher %}
                 <td>
                     <form method="GET" action="{% url 'dynamic_model_view' action='update' pk=obj.pk model_name=model_name %}">
                         {% csrf_token %}
@@ -42,11 +43,15 @@
                         <button type="submit">Delete</button>
                     </form>
                 </td>		
+                {% endif %}		
             </tr>
         {% endfor %}
     </tbody>
 </table>
 <br>
+
+{% if is_director or is_teacher %}
 <a href="{% url 'dynamic_model_view' action='create' model_name=model_name %}">Create new record</a>
+{% endif %}	
 
 {% endblock %}
