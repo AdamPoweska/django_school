@@ -47,7 +47,7 @@ class BaseCreateView(CreateView):
 
 
 class DynamicModelView(View):
-    # Dictionary with all MODELS
+    # Słowniki ze wszystkimi modelami
     models = {
         'school_adress': SchoolAdress,
         'director': Director,
@@ -73,16 +73,9 @@ class DynamicModelView(View):
         'delete': DeleteView,
     }
 
-    # action_urls = {
-    #     'create': 'dynamic_model_view',
-    #     'list': 'dynamic_model_view',
-    #     'update': 'dynamic_model_view',
-    #     'delete': 'dynamic_model_view',
-    # }
+    # success_url = reverse_lazy('user_page') # zastąpione na późniejszym etapie
 
-    # success_url = reverse_lazy('user_page')
-
-    def dispatch(self, request, *args, **kwargs):
+    def dispatch(self, request, *args, **kwargs): # nadpisanie metody dispatch (będący częścią widoku View) - metodą, która odpowiada za obsługę przekierowania żądania HTTP do odpowiedniej metody (np. get, post, put, itd.) w zależności od metody HTTP użytej w żądaniu. Innymi słowy, to dispatch decyduje, jaka metoda klasy zostanie wywołana na podstawie rodzaju żądania HTTP.
         action = kwargs.get('action')
         model_name = kwargs.get('model_name')
         pk = kwargs.get('pk')
@@ -96,10 +89,9 @@ class DynamicModelView(View):
         
         success_url = reverse_lazy('dynamic_model_view', kwargs={'action': 'list', 'model_name': model_name})
 
-        class DynamicHeaders(view_class):
+        class DynamicHeaders(view_class): # klasa żeby skonfigurować vidok view_class (słownik "actions" - co jest przekazywane)
             model = view_model
             template_name = view_template
-            # success_url = success_url
 
             def get_success_url(self):
                 return success_url
@@ -107,8 +99,8 @@ class DynamicModelView(View):
             if action in ["create", "update"]:
                 fields = '__all__'
 
-            def get_context_data(inner_self, **inner_kwargs):
-                context = super().get_context_data(**inner_kwargs)
+            def get_context_data(inner_self, **kwargs): # nadpisanie get_context_data
+                context = super().get_context_data(**kwargs)
                 context['model_name'] = self.kwargs.get('model_name') # dodana linia, mająca przekazywać nazwę modelu do html'i
                 context['headers'] = [field.verbose_name for field in view_model._meta.fields] + [field.verbose_name for field in view_model._meta.many_to_many]
 

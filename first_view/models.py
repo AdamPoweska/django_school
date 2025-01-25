@@ -36,14 +36,6 @@ class Lesson(models.Model):
     def __str__(self):
         return self.lesson_name
 
-    # class Meta: # aby tworzyć własne uprawnienia do panelu administracyjnego
-    #     permissions = [
-    #         ("can_create_lesson", "Can create lesson"),
-    #         ("can_view_lesson", "Can view lesson"),
-    #         ("can_update_lesson", "Can update lesson"),
-    #         ("can_delete_lesson", "Can delete lesson"),
-    #     ]
-    #  default_permissions = ()  # tak można wyłączyć automatyczne CRUD
 
 class Teacher(models.Model):
     first_name = models.CharField(max_length=100)
@@ -53,15 +45,6 @@ class Teacher(models.Model):
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
 
-# class TeacherLesson(models.Model):
-#     teacher = models.ForeignKey(Teacher, on_delete=models.SET_NULL, null=True)
-#     lesson = models.ForeignKey(Lesson, on_delete=models.SET_NULL, null=True)
-    
-#     class Meta:
-#         unique_together = ("teacher", "lesson")  # żeby istniała unikalność połączeń teacher i lesson
-
-#     def __str__(self):
-#         return f"{self.lesson.lesson_name} - {self.teacher.first_name} {self.teacher.last_name}"
 
 class Student(models.Model):
     first_name = models.CharField(max_length=100)
@@ -97,7 +80,7 @@ class School(models.Model):
     name = models.CharField(max_length=300)
     address = models.OneToOneField(SchoolAdress, on_delete=models.SET_NULL, null=True)
     director = models.OneToOneField(Director, on_delete=models.SET_NULL, null=True)
-    teachers = models.ForeignKey(Teacher, on_delete=models.SET_NULL, null=True) # zastanów się czy to jest tu faktycznie potrzebne? chyba tylko w sytuacji wyświetlania danych szkoły
+    # teachers = models.ForeignKey(Teacher, on_delete=models.SET_NULL, null=True) # zastanów się czy to jest tu faktycznie potrzebne? chyba tylko w sytuacji wyświetlania danych szkoły
 
 
 
